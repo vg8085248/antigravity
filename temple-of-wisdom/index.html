@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Living Temple of Wisdom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Inter:wght@300;400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- 3D Canvas Container -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay container -->
+    <div id="ui-layer">
+      
+      <!-- Cinematic Intro Screen -->
+      <div id="intro-screen" class="fullscreen-overlay active">
+        <h1 class="sanskrit-symbol">ॐ</h1>
+        <p class="whisper-text">Welcome, seeker… Choose the consciousness you wish to awaken.</p>
+        <button id="enter-button" class="premium-btn">Enter Temple</button>
+      </div>
+
+      <!-- Main Interface (hidden initially) -->
+      <div id="main-interface" class="hidden">
+        
+        <!-- Emotion Aura Overlay -->
+        <div id="emotion-aura" class="aura-effect blue"></div>
+
+        <!-- Role Summoning UI -->
+        <div id="summoning-ui">
+          <h2 class="cinematic-title">Summon a Guide</h2>
+          <div class="crystal-grid">
+            <button class="crystal-btn" data-guide="krishna">Shri Krishna</button>
+            <button class="crystal-btn" data-guide="shiva">Lord Shiva</button>
+            <button class="crystal-btn" data-guide="kalam">Dr. APJ Abdul Kalam</button>
+            <button class="crystal-btn" data-guide="chanakya">Chanakya</button>
+            <button class="crystal-btn" data-guide="buddha">Gautama Buddha</button>
+          </div>
+        </div>
+
+        <!-- Guide Interaction UI (hidden initially) -->
+        <div id="interaction-ui" class="hidden">
+          <div id="guide-response" class="glass-panel">
+            <div id="response-content"></div>
+          </div>
+          
+          <div id="user-input-container">
+            <input type="text" id="user-input" placeholder="Speak your mind..." autocomplete="off"/>
+            <button id="send-btn" class="glass-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
