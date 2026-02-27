@@ -1,5 +1,6 @@
+import gsap from 'gsap';
 import { playIntroZoom, getSceneData, triggerCinemaMode, updateMouse, showAvatar, getAvatar } from './scene.js';
-import { generateResponse, detectEmotion } from './aiEngine.js';
+import { detectEmotion, generateResponse, guideData } from './aiEngine.js';
 import { transitionEnvironment } from './environment.js';
 
 let currentGuide = null;
@@ -50,28 +51,86 @@ export function initUI() {
 
     // 2. Select a Guide
     crystalBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentGuide = e.target.dataset.guide;
+        // Skip the custom builder button from standard crystal logic
+        if (btn.id === 'custom-mentor-btn') return;
 
-            // Hide summoning UI, show interaction UI
-            summoningUI.classList.add('hidden');
-            interactionUI.classList.remove('hidden');
-
-            // Set initial aura color based on guide
-            setAuraColor(currentGuide);
-
-            // Show and animate floating avatar
-            showAvatar();
-
-            // Trigger initial greeting from the guide
-            // A pseudo-text string that triggers the default AI greeting HTML layout
-            triggerResponse(`user selected ${currentGuide} mode`, true);
-
-            // Transition 3D scene environment
-            const { scene, particlesSystem } = getSceneData();
-            transitionEnvironment(scene, particlesSystem, currentGuide);
+        btn.addEventListener('click', () => {
+            const guideId = btn.getAttribute('data-guide');
+            summoningUI.classList.remove('active'); // fade out grid
+            summonGuide(guideId);
         });
     });
+
+    // Custom Mentor Builder Logic
+    const customMentorBtn = document.getElementById('custom-mentor-btn');
+    const builderUI = document.getElementById('builder-ui');
+    const saveCustomBtn = document.getElementById('save-custom-btn');
+    const cancelCustomBtn = document.getElementById('cancel-custom-btn');
+    const customNameInput = document.getElementById('custom-name');
+    const customPhilosophyInput = document.getElementById('custom-philosophy');
+
+    customMentorBtn.addEventListener('click', () => {
+        builderUI.classList.remove('hidden');
+    });
+
+    cancelCustomBtn.addEventListener('click', () => {
+        builderUI.classList.add('hidden');
+        customNameInput.value = '';
+        customPhilosophyInput.value = '';
+    });
+
+    saveCustomBtn.addEventListener('click', () => {
+        const name = customNameInput.value.trim() || 'Unknown Entity';
+        const philosophy = customPhilosophyInput.value.trim() || 'Silence is the answer.';
+        const id = 'custom_' + Date.now();
+
+        // Inject into ai engine mapping dynamically
+        guideData[id] = {
+            name: name,
+            lang: 'en-IN', // Default custom character to English TTS
+            greeting: `I am ${name}. My consciousness has been manifested. What do you seek?`,
+            emotionResponse: () => `I perceive your emotional state.`,
+            story: `My journey is defined by this core truth: ${philosophy}`,
+            steps: ["Reflect on your intention.", "Align your actions with this newly awakened truth.", "Proceed with clarity."],
+            philosophy: philosophy,
+            quote: "Truth is subjective to the observer.",
+            suvichar: "The mind shapes reality."
+        };
+
+        // Trigger Summoning sequence directly
+        builderUI.classList.add('hidden');
+        summoningUI.classList.remove('active'); // Ensure summoningUI is visible before hiding it with animation
+        summonGuide(id);
+    });
+
+    function summonGuide(guideId) {
+        currentGuide = guideId;
+        console.log(`Summoning Guide: ${currentGuide}`);
+
+        // Hide summoning UI, show interaction UI
+        // Using GSAP for a smoother fade-out
+        gsap.to(summoningUI, {
+            opacity: 0, duration: 1, onComplete: () => {
+                summoningUI.classList.add('hidden');
+                summoningUI.style.opacity = 1; // Reset opacity for next time
+                interactionUI.classList.remove('hidden');
+
+                // Set initial aura color based on guide
+                setAuraColor(currentGuide);
+
+                // Show and animate floating avatar
+                showAvatar();
+
+                // Trigger initial greeting from the guide
+                // A pseudo-text string that triggers the default AI greeting HTML layout
+                triggerResponse(`user selected ${currentGuide} mode`, true);
+
+                // Transition 3D scene environment
+                const { scene, particlesSystem } = getSceneData();
+                transitionEnvironment(scene, particlesSystem, currentGuide);
+            }
+        });
+    }
 
     // 3. Handle User Chat Input
     sendBtn.addEventListener('click', handleUserInput);
@@ -126,7 +185,8 @@ export function initUI() {
             'chanakya': 'red',
             'buddha': 'green'
         };
-        emotionAura.classList.add(colors[guideId]);
+        const colorClass = colors[guideId] || 'purple'; // Fallback for custom mentors
+        emotionAura.classList.add(colorClass);
     }
 
     function updateEnvironmentBasedOnEmotion(emotionObj) {

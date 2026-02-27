@@ -12,8 +12,8 @@ export function transitionEnvironment(scene, particlesSystem, guideId) {
         'buddha': { color: 0x88ff88, fogDepth: 0.002, size: 0.15, skin: 0xffb347, clothes: 0xff8c00 }  // Golden skin, orange monk robe
     };
 
-    const targetConfig = config[guideId];
-    if (!targetConfig) return;
+    const defaultConfig = { color: 0xaa55ff, fogDepth: 0.003, size: 0.1, skin: 0xdcdcdc, clothes: 0x9932cc }; // Cosmic purple/grey theme
+    const targetConfig = config[guideId] || defaultConfig;
 
     // Transition Particles Color
     const targetColor = new THREE.Color(targetConfig.color);

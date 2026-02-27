@@ -25,7 +25,7 @@ export function detectEmotion(text) {
 // -------------------------------------------------------------
 // GUIDE PROFILES & RESPONSE TEMPLATES
 // -------------------------------------------------------------
-const guideData = {
+export const guideData = {
     'krishna': {
         name: 'Shri Krishna',
         lang: 'hi-IN', // Hindi
@@ -125,16 +125,20 @@ export function generateResponse(guideId, userText, isInitial) {
         if (val.keyword.some(kw => userText.toLowerCase().includes(kw))) emotionWord = key;
     }
 
-    const ackHTML = `<div class="response-section response-emotion">${guide.emotionResponse(emotionWord)}</div>`;
+    const ackHTML = `<div class="response-section response-emotion">${typeof guide.emotionResponse === 'function' ? guide.emotionResponse(emotionWord) : guide.emotionResponse}</div>`;
 
     // 2. Personality-based story
     const storyHTML = `<div class="response-section response-story">${guide.story}</div>`;
 
     // 3. Actionable steps
     let stepsHTML = `<div class="response-section response-steps"><ul>`;
-    guide.steps.forEach(step => {
-        stepsHTML += `<li>${step}</li>`;
-    });
+    if (guide.steps && guide.steps.length > 0) {
+        guide.steps.forEach(step => {
+            stepsHTML += `<li>${step}</li>`;
+        });
+    } else {
+        stepsHTML += `<li>Meditate on this path.</li>`;
+    }
     stepsHTML += `</ul></div>`;
 
     // 4. Philosophy

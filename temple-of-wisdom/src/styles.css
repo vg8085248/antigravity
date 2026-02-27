@@ -2,7 +2,7 @@
   --font-cinematic: 'Cinzel', serif;
   --font-ui: 'Inter', sans-serif;
   --font-sanskrit: 'Noto Sans Devanagari', sans-serif;
-  
+
   /* Color Palette - Premium Dark */
   --color-bg: #050505;
   --color-text: #ffffff;
@@ -12,11 +12,16 @@
   --color-glass-highlight: rgba(255, 255, 255, 0.2);
 
   /* Aura Colors */
-  --aura-blue: rgba(64, 156, 255, 0.15);     /* Peace */
-  --aura-gold: rgba(255, 215, 0, 0.15);      /* Motivation */
-  --aura-red: rgba(255, 77, 77, 0.15);       /* Courage */
-  --aura-green: rgba(77, 255, 148, 0.15);    /* Healing */
-  --aura-purple: rgba(184, 77, 255, 0.15);   /* Spiritual */
+  --aura-blue: rgba(64, 156, 255, 0.15);
+  /* Peace */
+  --aura-gold: rgba(255, 215, 0, 0.15);
+  /* Motivation */
+  --aura-red: rgba(255, 77, 77, 0.15);
+  /* Courage */
+  --aura-green: rgba(77, 255, 148, 0.15);
+  /* Healing */
+  --aura-purple: rgba(184, 77, 255, 0.15);
+  /* Spiritual */
 }
 
 * {
@@ -42,7 +47,8 @@ body {
   width: 100%;
   height: 100%;
   z-index: 1;
-  pointer-events: none; /* Let clicks pass through UI when necessary */
+  pointer-events: none;
+  /* Let clicks pass through UI when necessary */
 }
 
 /* UI Layer Base */
@@ -53,7 +59,8 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10;
-  pointer-events: none; /* Default none, enable on specific elements */
+  pointer-events: none;
+  /* Default none, enable on specific elements */
 }
 
 .fullscreen-overlay {
@@ -110,7 +117,7 @@ body {
   margin-bottom: 3rem;
   font-weight: 300;
   letter-spacing: 4px;
-  text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 /* Premium Buttons */
@@ -171,14 +178,33 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-glass-border);
-  border-radius: 8px;
-  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  padding: 0;
   color: var(--color-text);
   font-family: var(--font-cinematic);
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  width: 200px;
+}
+
+.crystal-btn img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.crystal-btn span {
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .crystal-btn:hover {
@@ -186,6 +212,50 @@ body {
   background: rgba(40, 40, 50, 0.6);
   border-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+}
+
+.crystal-btn:hover img {
+  transform: scale(1.1);
+}
+
+.custom-btn {
+  justify-content: center;
+  min-height: 300px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.add-icon {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+}
+
+/* Builder UI */
+.builder-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  pointer-events: all;
+  opacity: 1;
+  transform: none;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.builder-panel input,
+.builder-panel textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 8px;
+  padding: 1rem;
+  color: white;
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+}
+
+.builder-panel textarea {
+  min-height: 150px;
+  resize: vertical;
 }
 
 /* Interaction UI */
@@ -238,18 +308,40 @@ body {
   animation: fadeInText 1s forwards;
   opacity: 0;
 }
-.response-emotion { font-style: italic; color: var(--color-text-muted); }
-.response-story { font-size: 1.1rem; }
-.response-steps { margin-left: 1.5rem; font-family: var(--font-ui); font-size: 1rem; color: #e0e0e0; }
-.response-steps li { margin-bottom: 0.5rem; }
-.response-philosophy { border-left: 2px solid var(--aura-gold); padding-left: 1rem; margin-top: 1.5rem; }
-.response-quote { 
-  font-family: var(--font-sanskrit); 
-  font-size: 1.4rem; 
-  text-align: center; 
-  margin-top: 2rem; 
-  color: var(--aura-gold); 
-  text-shadow: 0 0 10px rgba(255,215,0,0.3);
+
+.response-emotion {
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.response-story {
+  font-size: 1.1rem;
+}
+
+.response-steps {
+  margin-left: 1.5rem;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.response-steps li {
+  margin-bottom: 0.5rem;
+}
+
+.response-philosophy {
+  border-left: 2px solid var(--aura-gold);
+  padding-left: 1rem;
+  margin-top: 1.5rem;
+}
+
+.response-quote {
+  font-family: var(--font-sanskrit);
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--aura-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 #user-input-container {
@@ -312,24 +404,60 @@ body {
   transition: background 2s ease;
   z-index: -1;
 }
-.aura-effect.blue { background: radial-gradient(circle at center, var(--aura-blue) 0%, transparent 70%); }
-.aura-effect.gold { background: radial-gradient(circle at center, var(--aura-gold) 0%, transparent 70%); }
-.aura-effect.red { background: radial-gradient(circle at center, var(--aura-red) 0%, transparent 70%); }
-.aura-effect.green { background: radial-gradient(circle at center, var(--aura-green) 0%, transparent 70%); }
-.aura-effect.purple { background: radial-gradient(circle at center, var(--aura-purple) 0%, transparent 70%); }
+
+.aura-effect.blue {
+  background: radial-gradient(circle at center, var(--aura-blue) 0%, transparent 70%);
+}
+
+.aura-effect.gold {
+  background: radial-gradient(circle at center, var(--aura-gold) 0%, transparent 70%);
+}
+
+.aura-effect.red {
+  background: radial-gradient(circle at center, var(--aura-red) 0%, transparent 70%);
+}
+
+.aura-effect.green {
+  background: radial-gradient(circle at center, var(--aura-green) 0%, transparent 70%);
+}
+
+.aura-effect.purple {
+  background: radial-gradient(circle at center, var(--aura-purple) 0%, transparent 70%);
+}
 
 /* Animations */
 @keyframes glowIn {
-  from { opacity: 0; transform: scale(0.9); text-shadow: 0 0 0px var(--aura-gold); }
-  to { opacity: 1; transform: scale(1); text-shadow: 0 0 40px var(--aura-gold); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    text-shadow: 0 0 0px var(--aura-gold);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    text-shadow: 0 0 40px var(--aura-gold);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInText {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
